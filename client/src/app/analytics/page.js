@@ -44,7 +44,7 @@ export default function analytics(){
     const scanstarted= useRef(false)
     async function handlelogout(){
         await fetch("/logout", {method: "POST"})
-        window.location.href= "/login"
+        window.location.href= "/Login"
     }
     useEffect(()=>{
         async function fullAuditFlow() {
