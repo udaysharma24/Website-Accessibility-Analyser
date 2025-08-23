@@ -19,7 +19,7 @@ export default function VantaBirds() {
   async function handleclick(e){
     e.preventDefault();
     console.log("URL state:", url)
-    const response= await fetch("http://localhost:3001/url_input",
+    const response= await fetch("http://localhost:3001/Url_input",
         {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -31,7 +31,7 @@ export default function VantaBirds() {
     if(data.status_code==400)
       alert(data.message)
     else if(data.status_code==200)
-      router.push("/analytics")
+      router.push("/Analytics")
   }
 
   useEffect(() => {

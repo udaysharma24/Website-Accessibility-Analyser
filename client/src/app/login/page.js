@@ -10,13 +10,13 @@ const poppins= Poppins({
     weight: ['400']
 })
 
-export default function login(){
+export default function Login(){
     const router= useRouter()
     const [email, setemail]= useState("")
     const [password, setpassword]= useState("")
     async function handleclick(e){
         e.preventDefault()
-        const response= await fetch("http://localhost:3001/login",
+        const response= await fetch("http://localhost:3001/Login",
             {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
@@ -27,14 +27,14 @@ export default function login(){
         console.log(data)
         alert(data.message)
         if(response.ok)
-            router.push("/url_input")
+            router.push("/Url_input")
     }
     function guestdirect(e){
         e.preventDefault()
-        router.push("/url_input")
+        router.push("/Url_input")
     }
     function handleregister(){
-        router.push("/register")
+        router.push("/Register")
     }
     return(
         <div className="flex h-[100%]">

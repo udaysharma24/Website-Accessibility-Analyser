@@ -7,13 +7,13 @@ const poppins= Poppins({
     weight: ['400']
 })
 
-export default function register(){
+export default function Register(){
     const [username, setusername]= useState("")
     const [email, setemail]= useState("")
     const [password, setpassword]= useState("")
     async function handleclick(e){
         e.preventDefault()
-        const response= await fetch("http://localhost:3001/register", 
+        const response= await fetch("http://localhost:3001/Register", 
             {
                 method: 'POST',
                 headers: {"Content-type":"application/json"},

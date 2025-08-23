@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import VantaBirds from "@/components/VantaBirds"
 
-export default function url_input(){
+export default function Url_input(){
     return(
         <main className="">
             <VantaBirds/>
