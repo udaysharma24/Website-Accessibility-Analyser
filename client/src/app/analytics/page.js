@@ -12,7 +12,7 @@ const poppins= Poppins({
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-export default function analytics(){
+export default function Analytics(){
     let count=0
     const [critical, setcritical]= useState(0)
     const [serious, setserious]= useState(0)
