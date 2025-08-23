@@ -37,7 +37,7 @@ export default function VantaBirds() {
   useEffect(() => {
     let effect;
     async function handleusername(){
-            const response= await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}/urlinput`, {credentials: "include"})
+            const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, {credentials: "include"})
             const data= await response.json()
             console.log(data)
             if(data==null || data.username==null)
