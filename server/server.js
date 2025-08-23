@@ -1,7 +1,6 @@
 import express from "express"
 import cors from "cors"
 import { fileURLToPath } from "url"
-import next from "next"
 import path from "path"
 import bcrypt from "bcrypt"
 import pool from "./db.js"
@@ -24,15 +23,11 @@ dotenv.config()
 
 const _filename= fileURLToPath(import.meta.url)
 const __dirname= dirname(_filename)
-const dev= process.env.NODE_ENV!=="production"
-const appnext=next({dev, dir:path.join(__dirname, "../client")})
-const handle= appnext.getRequestHandler()
 
 const app= express()
 const port= process.env.PORT || 3001
 
 async function startserver() {
-    await appnext.prepare()
     app.use(cors({
         origin: process.env.FRONTEND_URL,
         credentials: true
@@ -280,9 +275,6 @@ async function startserver() {
             const aifixes= await getaccess_fixes()
             res.status(200).json({audit: result.rows, fixes: aifixes})
         }
-    })
-    app.all("*", (req, res)=>{
-        return handle(req,res)
     })
     app.listen(port, ()=>{
         console.log(`Server listening on port ${port}`)
