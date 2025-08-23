@@ -11,7 +11,7 @@ export default function Home() {
   const router= useRouter()
 
   function handleclick(){
-    router.push("/Login")
+    router.push("/login")
   }
 
   return (

@@ -19,7 +19,7 @@ export default function VantaBirds() {
   async function handleclick(e){
     e.preventDefault();
     console.log("URL state:", url)
-    const response= await fetch(`http://${process.env.NEXT_API_URL}/Url_input`,
+    const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/url_input`,
         {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -31,13 +31,13 @@ export default function VantaBirds() {
     if(data.status_code==400)
       alert(data.message)
     else if(data.status_code==200)
-      router.push("/Analytics")
+      router.push("/analytics")
   }
 
   useEffect(() => {
     let effect;
     async function handleusername(){
-            const response= await fetch(`http://${process.env.NEXT_API_URL}/urlinput`, {credentials: "include"})
+            const response= await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}/urlinput`, {credentials: "include"})
             const data= await response.json()
             console.log(data)
             if(data==null || data.username==null)

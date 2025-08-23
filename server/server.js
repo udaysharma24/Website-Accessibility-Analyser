@@ -45,7 +45,7 @@ async function startserver() {
     app.use(passport.initialize())
     app.use(passport.session())
     app.use(helmet())
-    app.post("/Register", async(req, res)=>{
+    app.post("/register", async(req, res)=>{
         console.log(req.body)
         const username= req.body.username
         const email= req.body.email
@@ -73,7 +73,7 @@ async function startserver() {
                 pass: process.env.EMAIL_PASS
             }
         });
-        const verifyinglink= `http://${process.env.FRONTEND_URL}/verify?token=${token}`
+        const verifyinglink= `${process.env.FRONTEND_URL}/verify?token=${token}`
         let mailOptions = {
             from: process.env.EMAIL,
             to: email,
@@ -101,10 +101,10 @@ async function startserver() {
         else
         {
             await pool.query("update users set verified=true, verify_token=NULL where verify_token=$1", [token])
-            res.redirect(`http://${process.env.FRONTEND_URL}/Login`)
+            res.redirect(`${process.env.FRONTEND_URL}/login`)
         }
     })
-    app.post("/Login", async(req, res)=>{
+    app.post("/login", async(req, res)=>{
         console.log(req.body)
         const token= crypto.randomBytes(32).toString("hex")
         const email= req.body.email
@@ -140,7 +140,7 @@ async function startserver() {
                         pass: process.env.EMAIL_PASS
                     }
                 });
-                const verifyinglink= `http://${process.env.FRONTEND_URL}/verify?token=${token}`
+                const verifyinglink= `${process.env.FRONTEND_URL}/verify?token=${token}`
                 let mailOptions = {
                     from: process.env.EMAIL,
                     to: email,
@@ -167,7 +167,7 @@ async function startserver() {
             return res.status(404).json({message: "No such user, Register first"})
         }
     })
-    app.post("/Url_input", async(req, res)=>{
+    app.post("/url_input", async(req, res)=>{
         try{
             console.log(req.body)
             const url= req.body.url
@@ -199,7 +199,7 @@ async function startserver() {
             res.status(500).json({error: "Internal Server Error!"})
         }
     })
-    app.post("/Analytics", async(req, res)=>{
+    app.post("/analytics", async(req, res)=>{
         console.log(req.body)
         const url= req.session.url
         const audit_id= req.session.audit_id
@@ -237,11 +237,11 @@ async function startserver() {
             else
             {
                 res.clearCookie("connect.sid")
-                res.redirect("/Login")
+                res.redirect("/login")
             }
         })
     })
-    app.get("/Analytics_back", async(req, res)=>{
+    app.get("/analytics_back", async(req, res)=>{
         console.log("Starting accessibility test on:", req.session.url)
         await accessibilityTest(req.session.url)
         console.log("Accessibility test complete")
@@ -251,11 +251,11 @@ async function startserver() {
             res.status(440).json({message: "No URL is input by the user!!"})
     })
     app.get("/auth/google", passport.authenticate("google", {scope: ["email", "profile"]}))
-    app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/Login" }),
+    app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }),
         (req, res) => {
             req.session.username = req.user.displayname;
             req.session.userid = req.user.id;
-            res.redirect(`http://${process.env.FRONTEND_URL}/Url_input`);
+            res.redirect(`${process.env.FRONTEND_URL}/url_input`);
         }
     )
     app.get("/urlinput", (req, res)=>{
@@ -264,7 +264,7 @@ async function startserver() {
         else    
             res.status(440).json({message: "User is not logged in"})
     })
-    app.get("/Analytics_data", async(req, res)=>{
+    app.get("/analytics_data", async(req, res)=>{
         const url= req.session.url
         const audit_id= req.session.audit_id
         if(!url)

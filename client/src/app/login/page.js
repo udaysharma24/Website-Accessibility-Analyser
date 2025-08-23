@@ -16,7 +16,7 @@ export default function Login(){
     const [password, setpassword]= useState("")
     async function handleclick(e){
         e.preventDefault()
-        const response= await fetch(`http://${process.env.NEXT_API_URL}/Login`,
+        const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`,
             {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
@@ -27,14 +27,14 @@ export default function Login(){
         console.log(data)
         alert(data.message)
         if(response.ok)
-            router.push("/Url_input")
+            router.push("/url_input")
     }
     function guestdirect(e){
         e.preventDefault()
-        router.push("/Url_input")
+        router.push("/url_input")
     }
     function handleregister(){
-        router.push("/Register")
+        router.push("/register")
     }
     return(
         <div className="flex h-[100%]">
