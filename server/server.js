@@ -18,12 +18,13 @@ import "./passportConfig.js"
 import getaccess_fixes from "./AI_accessibilityFixes.js"
 import nodemailer from "nodemailer"
 import crypto from "crypto"
+import helmet from "helmet";
 
 dotenv.config()
 
 const _filename= fileURLToPath(import.meta.url)
 const __dirname= dirname(_filename)
-const dev= process.env.NODEENV!=="production"
+const dev= process.env.NODE_ENV!=="production"
 const appnext=next({dev, dir:path.join(__dirname, "../client")})
 const handle= appnext.getRequestHandler()
 
@@ -33,7 +34,7 @@ const port= process.env.PORT || 3001
 async function startserver() {
     await appnext.prepare()
     app.use(cors({
-        origin:  "http://localhost:3000",
+        origin: process.env.FRONTEND_URL,
         credentials: true
     }))
     app.use(express.json())
@@ -43,11 +44,12 @@ async function startserver() {
         saveUninitialized: false,
         cookie: {
             maxAge: 1000*60*60*24,
-            secure: false
+            secure: true
         }
     }))
     app.use(passport.initialize())
     app.use(passport.session())
+    app.use(helmet())
     app.post("/Register", async(req, res)=>{
         console.log(req.body)
         const username= req.body.username
@@ -76,7 +78,7 @@ async function startserver() {
                 pass: process.env.EMAIL_PASS
             }
         });
-        const verifyinglink= `http://localhost:3001/verify?token=${token}`
+        const verifyinglink= `http://${process.env.FRONTEND_URL}/verify?token=${token}`
         let mailOptions = {
             from: process.env.EMAIL,
             to: email,
@@ -104,7 +106,7 @@ async function startserver() {
         else
         {
             await pool.query("update users set verified=true, verify_token=NULL where verify_token=$1", [token])
-            res.redirect("http://localhost:3001/Login")
+            res.redirect(`http://${process.env.FRONTEND_URL}/Login`)
         }
     })
     app.post("/Login", async(req, res)=>{
@@ -143,7 +145,7 @@ async function startserver() {
                         pass: process.env.EMAIL_PASS
                     }
                 });
-                const verifyinglink= `http://localhost:3001/verify?token=${token}`
+                const verifyinglink= `http://${process.env.FRONTEND_URL}/verify?token=${token}`
                 let mailOptions = {
                     from: process.env.EMAIL,
                     to: email,
@@ -258,7 +260,7 @@ async function startserver() {
         (req, res) => {
             req.session.username = req.user.displayname;
             req.session.userid = req.user.id;
-            res.redirect("http://localhost:3001/Url_input");
+            res.redirect(`http://${process.env.FRONTEND_URL}/Url_input`);
         }
     )
     app.get("/urlinput", (req, res)=>{

@@ -16,7 +16,7 @@ export default function Login(){
     const [password, setpassword]= useState("")
     async function handleclick(e){
         e.preventDefault()
-        const response= await fetch("http://localhost:3001/Login",
+        const response= await fetch(`http://${process.env.NEXT_API_URL}/Login`,
             {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},

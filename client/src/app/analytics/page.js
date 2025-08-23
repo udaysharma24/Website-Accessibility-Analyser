@@ -74,11 +74,11 @@ export default function Analytics(){
                 return;
             scanstarted.current=true
             setloading(true)
-            const response1= await fetch("http://localhost:3001/Analytics_back", {credentials: "include"})
+            const response1= await fetch(`http://${process.env.NEXT_API_URL}/Analytics_back`, {credentials: "include"})
             const data1= await response1.json()
             console.log(data1)
             seturl(data1.url)
-            const report = await fetch("http://localhost:3001/Analytics", {
+            const report = await fetch(`http://${process.env.NEXT_API_URL}/Analytics`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({}), 
@@ -86,7 +86,7 @@ export default function Analytics(){
             });
             const reportRes = await report.json();
             console.log(reportRes);
-            const response2 = await fetch("http://localhost:3001/Analytics_data", { credentials: "include" });
+            const response2 = await fetch(`http://${process.env.NEXT_API_URL}/Analytics_data`, { credentials: "include" });
             const data2 = await response2.json();
             console.log(data2.audit);
             console.log(data2.fixes)

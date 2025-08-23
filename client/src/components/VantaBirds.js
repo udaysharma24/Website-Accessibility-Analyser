@@ -19,7 +19,7 @@ export default function VantaBirds() {
   async function handleclick(e){
     e.preventDefault();
     console.log("URL state:", url)
-    const response= await fetch("http://localhost:3001/Url_input",
+    const response= await fetch(`http://${process.env.NEXT_API_URL}/Url_input`,
         {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -37,7 +37,7 @@ export default function VantaBirds() {
   useEffect(() => {
     let effect;
     async function handleusername(){
-            const response= await fetch("http://localhost:3001/urlinput", {credentials: "include"})
+            const response= await fetch(`http://${process.env.NEXT_API_URL}/urlinput`, {credentials: "include"})
             const data= await response.json()
             console.log(data)
             if(data==null || data.username==null)

@@ -13,7 +13,7 @@ export default function Register(){
     const [password, setpassword]= useState("")
     async function handleclick(e){
         e.preventDefault()
-        const response= await fetch("http://localhost:3001/Register", 
+        const response= await fetch(`http://${process.env.NEXT_API_URL}/Register`, 
             {
                 method: 'POST',
                 headers: {"Content-type":"application/json"},
