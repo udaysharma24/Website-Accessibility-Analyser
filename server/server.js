@@ -191,10 +191,14 @@ async function startserver() {
             const audit= result.rows[0]
             req.session.url= audit.url
             req.session.audit_id= audit.id
-            req.session.save(() => {
-                res.json({ message: "URL saved in session" });
+            req.session.save((err) => {
+                if(err)
+                {
+                    console.error(err);
+                    return res.status(500).json({ message: "Session save failed" });
+                }
+                res.status(200).json({ message: "Audit created successfully!!", status_code: 200 });
             });
-            res.status(200).json({message: "Audit created successfully!!", status_code: 200})
         }
         catch(error)
         {
