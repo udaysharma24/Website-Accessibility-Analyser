@@ -41,7 +41,7 @@ export default function VantaBirds() {
             const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, {credentials: "include"})
             const data= await response.json()
             console.log(data)
-            if(data==null || data.username==null)
+            if(data==null || data.username==null || data.username==undefined)
               setusername("User")
             else
               setusername(data.username)
