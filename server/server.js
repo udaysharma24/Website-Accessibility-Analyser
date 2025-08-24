@@ -18,8 +18,11 @@ import getaccess_fixes from "./AI_accessibilityFixes.js"
 import nodemailer from "nodemailer"
 import crypto from "crypto"
 import helmet from "helmet";
+import connect_pg from "connect-pg-simple"
 
 dotenv.config()
+
+const PgSession= connect_pg(session)
 
 const _filename= fileURLToPath(import.meta.url)
 const __dirname= dirname(_filename)
@@ -34,12 +37,17 @@ async function startserver() {
     }))
     app.use(express.json())
     app.use(session({
+        store: new PgSession({
+            pool: pool, 
+            tableName: 'session'
+        }),
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: {
             maxAge: 1000*60*60*24,
-            secure: true
+            secure: true,
+            sameSite: "lax"
         }
     }))
     app.use(passport.initialize())
@@ -253,12 +261,15 @@ async function startserver() {
             return res.status(440).json({ message: "No URL is input by the user!!" });
         }
         console.log("Starting accessibility test on:", req.session.url)
-        await accessibilityTest(req.session.url)
-        console.log("Accessibility test complete")
-        if(req.session)
-            res.json({url: req.session.url})
-        else
-            res.status(440).json({message: "No URL is input by the user!!"})
+        try{
+            await accessibilityTest(req.session.url);
+            console.log("Accessibility test complete");
+            res.json({ url: req.session.url });
+        } 
+        catch(err){
+            console.error("Accessibility test failed:", err);
+            res.status(500).json({ message: "Accessibility test failed" });
+        }
     })
     app.get("/auth/google", passport.authenticate("google", {scope: ["email", "profile"]}))
     app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }),
