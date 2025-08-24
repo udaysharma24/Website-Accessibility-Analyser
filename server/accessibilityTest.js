@@ -5,7 +5,10 @@ import path from "path";
 
 export default async function accessibilityTest(website){
     const {source: axesource}= pkg
-    const browser= await puppeteer.launch()
+    const browser= await puppeteer.launch({
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        headless: true,
+    })
     const page= await browser.newPage()
     const start= Date.now()
     await page.goto(website, {waitUntil: "networkidle2", timeout: 100000})
