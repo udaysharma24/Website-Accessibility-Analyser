@@ -19,6 +19,7 @@ export default function VantaBirds() {
   async function handleclick(e){
     e.preventDefault();
     console.log("URL state:", url)
+    console.log("Fetching:", `${process.env.NEXT_PUBLIC_API_URL}/url_input`);
     const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/url_input`,
         {
             method: 'POST',
@@ -102,7 +103,7 @@ export default function VantaBirds() {
         <p className="text-gray-800 font-bold mb-4 text-3xl">Welcome! <span className='text-blue-600'>{username}</span>&#x1f64f;😀</p>
         <label htmlFor="url-input" className="text-lg text-gray-700 block mb-2">Please Enter Website URL: </label>
         <input type="url" id="url-input" name="website_url" placeholder="https://example.com" onChange={(e)=>{seturl(e.target.value)}} className="shadow border rounded-lg w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400"/>
-        <button type='submit' className='cursor-pointer mt-4 font-semibold shadow-md transition-transform transform hover:scale-105 w-full py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600' onClick={handleclick}>Get Info</button>
+        <button type='button' className='cursor-pointer mt-4 font-semibold shadow-md transition-transform transform hover:scale-105 w-full py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600' onClick={handleclick}>Get Info</button>
       </div>
     </div>
   );
