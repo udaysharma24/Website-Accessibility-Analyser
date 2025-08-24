@@ -35,7 +35,9 @@ async function startserver() {
         origin: "https://intelliaccess.vercel.app",
         credentials: true
     }))
+    app.options("*", cors()); 
     app.use(express.json())
+    app.set("trust proxy", 1)
     app.use(session({
         store: new PgSession({
             pool: pool, 
