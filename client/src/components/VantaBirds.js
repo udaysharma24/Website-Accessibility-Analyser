@@ -38,26 +38,27 @@ export default function VantaBirds() {
   useEffect(() => {
     let effect;
     async function handleusername(){
-            const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, {credentials: "include"})
-            const data= await response.json()
-            console.log(data)
-            if(data==null || data.username==null || data.username==undefined)
-              setusername("User")
-            else
-              setusername(data.username)
-        }
-        handleusername()
+        const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, {credentials: "include"})
+        const data= await response.json()
+        console.log(data)
+        if(data==null || data.username==null || data.username==undefined)
+          setusername("User")
+        else
+          setusername(data.username)
+        console.log(username)
+    }
+    handleusername()
     const loadScripts = async () => {
-      // Load THREE.js first
-      const threeScript = document.createElement('script');
-      threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-      threeScript.async = true;
+    // Load THREE.js first
+    const threeScript = document.createElement('script');
+    threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+    threeScript.async = true;
 
-      // Then load Vanta Birds after THREE is loaded
-      threeScript.onload = () => {
-        const vantaScript = document.createElement('script');
-        vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js';
-        vantaScript.async = true;
+    // Then load Vanta Birds after THREE is loaded
+    threeScript.onload = () => {
+      const vantaScript = document.createElement('script');
+      vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js';
+      vantaScript.async = true;
 
         vantaScript.onload = () => {
           if (!vantaEffect && window.VANTA && window.VANTA.BIRDS) {

@@ -29,7 +29,7 @@ const port= process.env.PORT || 3001
 
 async function startserver() {
     app.use(cors({
-        origin: process.env.FRONTEND_URL,
+        origin: "https://intelliaccess.vercel.app",
         credentials: true
     }))
     app.use(express.json())
