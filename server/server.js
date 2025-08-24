@@ -259,6 +259,7 @@ async function startserver() {
         }
     )
     app.get("/urlinput", (req, res)=>{
+        console.log(req.session); 
         if(req.session)
             res.json({username: req.session.username})
         else    
