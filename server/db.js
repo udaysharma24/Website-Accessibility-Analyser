@@ -8,9 +8,8 @@ const pool= new Pool({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    ssl: isProduction
-    ? { rejectUnauthorized: false } 
-    : false,
+    connectionString: process.env.DB_URL,
+    ssl: { rejectUnauthorized: false }
 })
 
 async function conn(){
