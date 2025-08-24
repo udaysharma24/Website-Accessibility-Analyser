@@ -260,8 +260,13 @@ async function startserver() {
         })
     })
     app.get("/analytics_back", async(req, res)=>{
-        if (!req.session || !req.session.url) {
-            return res.status(440).json({ message: "No URL is input by the user!!" });
+        if(!req.session){
+            console.warn("No session object");
+            return res.status(440).json({ message: "Session not initialized!" });
+        }
+        if(!req.session.url){
+            console.warn("URL not in session");
+            return res.status(440).json({ message: "URL not set in session yet!" });
         }
         console.log("Starting accessibility test on:", req.session.url)
         try{
