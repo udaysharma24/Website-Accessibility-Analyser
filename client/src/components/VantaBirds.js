@@ -23,6 +23,7 @@ export default function VantaBirds() {
     const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/url_input`,
         {
             method: 'POST',
+            credentials: 'include',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({url})
         }
