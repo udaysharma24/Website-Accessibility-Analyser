@@ -191,6 +191,9 @@ async function startserver() {
             const audit= result.rows[0]
             req.session.url= audit.url
             req.session.audit_id= audit.id
+            req.session.save(() => {
+                res.json({ message: "URL saved in session" });
+            });
             res.status(200).json({message: "Audit created successfully!!", status_code: 200})
         }
         catch(error)
@@ -242,6 +245,9 @@ async function startserver() {
         })
     })
     app.get("/analytics_back", async(req, res)=>{
+        if (!req.session || !req.session.url) {
+            return res.status(440).json({ message: "No URL is input by the user!!" });
+        }
         console.log("Starting accessibility test on:", req.session.url)
         await accessibilityTest(req.session.url)
         console.log("Accessibility test complete")
