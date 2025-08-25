@@ -58,6 +58,7 @@ function AnalyticsContent() {
             let prev3 = 0;
             let prev4 = 0;
             const urlParam = searchParams.get('url');
+            console.log(`urlParam is ${urlParam}`)
             seturl(urlParam);
             const savedurl = sessionStorage.getItem("auditurl");
             const savedScore = sessionStorage.getItem("auditScore");

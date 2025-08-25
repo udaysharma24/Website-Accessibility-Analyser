@@ -273,11 +273,11 @@ async function startserver() {
     app.get("/analytics_back", async(req, res)=>{
         console.log("Session object:", req.session);
         console.log("Session ID cookie:", req.cookies);
-        console.log("Starting accessibility test on:", req.body.url)
+        console.log("Starting accessibility test on:", req.query.url)
         try{
-            await accessibilityTest(req.body.url);
+            await accessibilityTest(req.query.url);
             console.log("Accessibility test complete");
-            res.json({ url: req.body.url });
+            res.json({ url: req.query.url });
         } 
         catch(err){
             console.error("Accessibility test failed:", err);
