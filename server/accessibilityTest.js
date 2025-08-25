@@ -6,12 +6,7 @@ import path from "path";
 export default async function accessibilityTest(website){
     const {source: axesource}= pkg
     const chromePath = '/opt/render/.cache/puppeteer/chrome/linux-138.0.7204.168/chrome-linux64/chrome';
-    if (!fs.existsSync(chromePath)) {
-        console.error("Chrome executable not found at:", chromePath);
-        throw new Error("Chrome executable not found. Check your Puppeteer installation and path.");
-    }
     const browser= await puppeteer.launch({
-        executablePath: chromePath,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
         headless: true,
     })
