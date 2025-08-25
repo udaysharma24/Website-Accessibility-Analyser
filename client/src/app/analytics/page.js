@@ -74,7 +74,10 @@ export default function Analytics(){
                 return;
             scanstarted.current=true
             setloading(true)
-            const response1= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_back`, {credentials: "include"})
+            const response1= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_back`, {
+                method: "GET",
+                credentials: "include",
+            })
             const data1= await response1.json()
             console.log(data1)
             seturl(data1.url)
