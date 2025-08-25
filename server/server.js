@@ -19,6 +19,7 @@ import nodemailer from "nodemailer"
 import crypto from "crypto"
 import helmet from "helmet";
 import connect_pg from "connect-pg-simple"
+import cookieParser from "cookie-parser"
 
 dotenv.config()
 
@@ -44,6 +45,7 @@ async function startserver() {
         allowedHeaders: ["Content-Type", "Authorization"]
     }));
     app.set("trust proxy", 1)
+    app.use(cookieParser())
     app.use(express.json())
     app.use(session({
         store: new PgSession({
