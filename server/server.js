@@ -33,11 +33,16 @@ const port= process.env.PORT || 3001
 async function startserver() {
     app.use(cors({
         origin: "https://intelliaccess.vercel.app",
-        credentials: true
+        credentials: true,
+        methods: ["GET","POST","PUT","DELETE","OPTIONS"]
     }))
-    app.options("*", cors()); 
-    app.use(express.json())
+    app.options("*", cors({
+        origin: "https://intelliaccess.vercel.app",
+        credentials: true,
+        methods: ["GET","POST","PUT","DELETE","OPTIONS"]
+    }));
     app.set("trust proxy", 1)
+    app.use(express.json())
     app.use(session({
         store: new PgSession({
             pool: pool, 
