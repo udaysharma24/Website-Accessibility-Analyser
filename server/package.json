@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "postinstall": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
     "@google/genai": "^1.15.0",
