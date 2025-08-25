@@ -6,6 +6,8 @@ import path from "path";
 export default async function accessibilityTest(website){
     const {source: axesource}= pkg
     const chromePath = '/opt/render/.cache/puppeteer/chrome/linux-138.0.7204.168/chrome-linux64/chrome';
+    console.log("Checking Chrome path:", chromePath);
+    console.log("Exists?", fs.existsSync(chromePath));
     const browser= await puppeteer.launch({
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
         headless: true,
