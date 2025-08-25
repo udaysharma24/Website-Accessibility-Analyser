@@ -45,19 +45,20 @@ async function startserver() {
     app.use(express.json())
     app.use(session({
         store: new PgSession({
-            pool: pool, 
-            tableName: 'session',
-            createTableIfMissing: true
+            pool: pool,
+            tableName: "session",
+            createTableIfMissing: true,
         }),
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 1000*60*60*24,
-            secure: true,
-            sameSite: "none"
-        }
-    }))
+            maxAge: 1000 * 60 * 60 * 24, // 1 day
+            secure: true,                // required with sameSite: "none"
+            httpOnly: true,              // prevent JS access
+            sameSite: "none",            // allow cross-site cookies
+        },
+    }));
     app.use(passport.initialize())
     app.use(passport.session())
     app.use(helmet())
