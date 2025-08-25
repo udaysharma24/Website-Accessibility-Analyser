@@ -32,12 +32,12 @@ const port= process.env.PORT || 3001
 
 async function startserver() {
     app.use(cors({
-        origin: "https://intelliaccess.vercel.app",
+        origin: process.env.FRONTEND_URL,
         credentials: true,
         methods: ["GET","POST","PUT","DELETE","OPTIONS"]
     }))
     app.options("*", cors({
-        origin: "https://intelliaccess.vercel.app",
+        origin: process.env.FRONTEND_URL,
         credentials: true,
         methods: ["GET","POST","PUT","DELETE","OPTIONS"]
     }));
