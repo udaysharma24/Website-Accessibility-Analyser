@@ -210,6 +210,7 @@ async function startserver() {
                 "INSERT INTO audit_history(url, user_id, status_code, scan_duration, device_type, browser, ip_address, result_summary) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [url, user_id, status_code, scan_duration, device_type, browser, ip_address, null]
             )
             const audit= result.rows[0]
+            console.log(`Audit URL is ${audit.url}`)
             req.session.url= audit.url
             req.session.audit_id= audit.id
             req.session.save((err) => {
