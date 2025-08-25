@@ -4,6 +4,7 @@ import { Doughnut } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, elements } from "chart.js"
 import { Poppins } from "next/font/google"
 import { Lightbulb, AlertTriangle, Sparkles, LogOutIcon } from "lucide-react"
+import { useSearchParams } from 'next/navigation';
 
 const poppins= Poppins({
     subsets: ['latin'],
@@ -36,12 +37,12 @@ export default function Analytics(){
             legend: {position: 'bottom'}
         }
     }
-    const [url, seturl]= useState("")
     const [audit, setaudit]= useState(null)
     const [loading, setloading]= useState(true)
     const [score, setscore]= useState(0)
     const [fixesdata, setfixesdata]= useState(null)
     const scanstarted= useRef(false)
+    const searchParams = useSearchParams();
     async function handlelogout(){
         await fetch("/logout", {method: "POST"})
         window.location.href= "/login"
@@ -52,6 +53,7 @@ export default function Analytics(){
             let prev2=0
             let prev3=0
             let prev4=0
+            const url = searchParams.get('url');
             const savedurl= sessionStorage.getItem("auditurl")
             const savedScore = sessionStorage.getItem("auditScore");
             const savedCounts = sessionStorage.getItem("auditCounts");
@@ -77,10 +79,11 @@ export default function Analytics(){
             const response1= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_back`, {
                 method: "GET",
                 credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({url})
             })
             const data1= await response1.json()
             console.log(data1)
-            seturl(data1.url)
             const report = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

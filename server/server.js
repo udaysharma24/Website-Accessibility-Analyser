@@ -219,7 +219,7 @@ async function startserver() {
                     console.error(err);
                     return res.status(500).json({ message: "Session save failed" });
                 }
-                res.status(200).json({ message: "Audit created successfully!!", status_code: 200 });
+                res.status(200).json({ message: "Audit created successfully!!", status_code: 200, url: req.session.url });
             });
         }
         catch(error)
@@ -271,21 +271,13 @@ async function startserver() {
         })
     })
     app.get("/analytics_back", async(req, res)=>{
-        if(!req.session){
-            console.warn("No session object");
-            return res.status(440).json({ message: "Session not initialized!" });
-        }
         console.log("Session object:", req.session);
         console.log("Session ID cookie:", req.cookies);
-        if(!req.session.url){
-            console.warn("URL not in session");
-            return res.status(440).json({ message: "URL not set in session yet!" });
-        }
-        console.log("Starting accessibility test on:", req.session.url)
+        console.log("Starting accessibility test on:", req.body.url)
         try{
-            await accessibilityTest(req.session.url);
+            await accessibilityTest(req.body.url);
             console.log("Accessibility test complete");
-            res.json({ url: req.session.url });
+            res.json({ url: req.body.url });
         } 
         catch(err){
             console.error("Accessibility test failed:", err);

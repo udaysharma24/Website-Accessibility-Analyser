@@ -29,11 +29,11 @@ export default function VantaBirds() {
         }
     )
     const data= await response.json()
-    console.log(data)
+    console.log(`Vantabirds data is ${data}`)
     if(data.status_code==400)
       alert(data.message)
     else if(data.status_code==200)
-      router.push("/analytics")
+      router.push(`/analytics?url=${url1}`)
   }
 
   useEffect(() => {
