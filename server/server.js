@@ -269,6 +269,8 @@ async function startserver() {
             console.warn("No session object");
             return res.status(440).json({ message: "Session not initialized!" });
         }
+        console.log("Session object:", req.session);
+        console.log("Session ID cookie:", req.cookies);
         if(!req.session.url){
             console.warn("URL not in session");
             return res.status(440).json({ message: "URL not set in session yet!" });
