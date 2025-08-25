@@ -32,14 +32,16 @@ const port= process.env.PORT || 3001
 
 async function startserver() {
     app.use(cors({
-        origin: process.env.FRONTEND_URL,
+        origin: "https://intelliaccess.vercel.app",
         credentials: true,
-        methods: ["GET","POST","PUT","DELETE","OPTIONS"]
-    }))
+        methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"]
+    }));
     app.options("*", cors({
-        origin: process.env.FRONTEND_URL,
+        origin: "https://intelliaccess.vercel.app",
         credentials: true,
-        methods: ["GET","POST","PUT","DELETE","OPTIONS"]
+        methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"]
     }));
     app.set("trust proxy", 1)
     app.use(express.json())
