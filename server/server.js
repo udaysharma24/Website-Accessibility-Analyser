@@ -219,7 +219,7 @@ async function startserver() {
                     console.error(err);
                     return res.status(500).json({ message: "Session save failed" });
                 }
-                res.status(200).json({ message: "Audit created successfully!!", status_code: 200, url: req.session.url });
+                res.status(200).json({ message: "Audit created successfully!!", status_code: 200, url: req.session.url, audit_id: req.session.audit_id });
             });
         }
         catch(error)
@@ -230,8 +230,8 @@ async function startserver() {
     })
     app.post("/analytics", async(req, res)=>{
         console.log(req.body)
-        const url= req.session.url
-        const audit_id= req.session.audit_id
+        const url= req.body.url
+        const audit_id= req.body.audit_id
         const reportpath= path.join(__dirname, 'accessibility_report.json')
         if(!fs.existsSync(reportpath))
             return res.status(404).json({error: "Accessibility Report File Not found, Please run Accessibility Test first!"})

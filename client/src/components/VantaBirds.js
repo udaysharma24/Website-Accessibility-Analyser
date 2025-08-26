@@ -33,7 +33,7 @@ export default function VantaBirds() {
     if(data.status_code==400)
       alert(data.message)
     else if(data.status_code==200)
-      router.push(`/analytics?url=${url1}`)
+      router.push(`/analytics?url=${url1}&audit_id=${data.audit_id}`)
   }
 
   useEffect(() => {

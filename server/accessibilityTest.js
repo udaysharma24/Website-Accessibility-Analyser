@@ -22,6 +22,7 @@ export default async function accessibilityTest(website){
     console.log(`Scan completed in ${scan_duration}ms`)
     console.log(`Violations found: ${results.violations.length}`)
     const reportpath= path.resolve("server", "accessibility_report.json")
+    console.log(`report path is ${reportpath}`)
     const dir= path.dirname(reportpath)
     if(!fs.existsSync(dir))
         fs.mkdirSync(dir, {recursive: true})

@@ -45,6 +45,7 @@ function AnalyticsContent() {
     const scanstarted = useRef(false);
     const searchParams = useSearchParams();
     const [url, seturl] = useState("");
+    const [audit_id, setaudit_id] = useState(0)
 
     async function handlelogout() {
         await fetch("/logout", { method: "POST" });
@@ -60,6 +61,9 @@ function AnalyticsContent() {
             const urlParam = searchParams.get('url');
             console.log(`urlParam is ${urlParam}`)
             seturl(urlParam);
+            const audit_id_param= searchParams.get('audit_id')
+            console.log(`audit_id_param is ${audit_id_param}`)
+            setaudit_id(audit_id_param)
             const savedurl = sessionStorage.getItem("auditurl");
             const savedScore = sessionStorage.getItem("auditScore");
             const savedCounts = sessionStorage.getItem("auditCounts");
@@ -91,7 +95,7 @@ function AnalyticsContent() {
             const report = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({}),
+                body: JSON.stringify({urlParam, audit_id_param}),
                 credentials: "include"
             });
             const reportRes = await report.json();
