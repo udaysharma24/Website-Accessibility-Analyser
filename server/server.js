@@ -261,7 +261,7 @@ async function startserver() {
                 await pool.query("INSERT INTO audit_results(audit_id, wcag_rule, severity, description, resolved,html_snippet, css_target, failure_summary, help_url, url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", [audit_id, wcag_rule, severity, description, resolved, html_snippet, css_target, failure_summary, help_url, url])
             }
         }
-        res.status(200).json({message: "Accessibility Results inserted successfully in audit_results!"})
+        res.status(200).json({message: `Accessibility Results inserted successfully in audit_results for ${url}!`})
     })
     app.post("/logout", (req, res)=>{
         req.session.destroy((err)=>{

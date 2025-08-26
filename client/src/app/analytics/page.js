@@ -78,14 +78,17 @@ function AnalyticsContent() {
       scanstarted.current = true;
       setloading(true);
       const urlParam = searchParams.get('url');
+      console.log(`urlParam is ${urlParam}`)
       seturl(urlParam);
+      console.log()
       const audit_id_param = searchParams.get('audit_id')
+      console.log(`audit_id_param is ${urlParam}`)
       setaudit_id(audit_id_param)
       const response1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_back?url=${encodeURIComponent(urlParam)}`, {
         method: "GET",
         credentials: "include"
       });
-      await response1.json();
+      const data1= await response1.json();
 
       const report = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics`, {
         method: "POST",
@@ -93,10 +96,11 @@ function AnalyticsContent() {
         body: JSON.stringify({ url: urlParam, audit_id: audit_id_param }),
         credentials: "include"
       });
-      await report.json();
-
+      const reportdata= await report.json();
+      console.log(`Message from server.js is: ${reportdata.message}`)
       const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_data?url=${urlParam}&audit_id=${audit_id_param}`, { credentials: "include" });
       const data2 = await response2.json();
+      console.log(`data2 from /analytics_data is ${data2}`)
       setaudit(data2.audit);
       setfixesdata(data2.fixes);
       let penalty = 0;
@@ -106,13 +110,20 @@ function AnalyticsContent() {
       setminor(0);
       data2.audit.forEach(v => {
         if (v.severity == "critical") {
-          penalty += 4; prev1++;
-        } else if (v.severity == "serious") {
-          penalty += 3; prev2++;
-        } else if (v.severity == "moderate") {
-          penalty += 2; prev3++;
-        } else if (v.severity == "minor") {
-          penalty++; prev4++;
+          penalty += 4; 
+          prev1++;
+        } 
+        else if (v.severity == "serious") {
+          penalty += 3; 
+          prev2++;
+        } 
+        else if (v.severity == "moderate") {
+          penalty += 2; 
+          prev3++;
+        } 
+        else if (v.severity == "minor") {
+          penalty++; 
+          prev4++;
         }
       });
       setcritical(prev1);
