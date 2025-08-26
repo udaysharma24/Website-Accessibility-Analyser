@@ -36,7 +36,7 @@ export default function Home() {
         </h1>
 
         <button
-          className="bg-violet-800 hover:bg-violet-950 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-3 mt-6 sm:mt-8 md:mt-10 w-fit rounded-xl cursor-pointer border-2 border-white text-white text-sm sm:text-base md:text-lg drop-shadow-[0_0_3px_white]"
+          className="bg-violet-800 hover:bg-violet-950 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-3 mt-6 sm:mt-8 md:mt-10 w-fit rounded-xl cursor-pointer border-2 border-white text-white text-sm sm:text-base md:text-md drop-shadow-[0_0_3px_white]"
           onClick={handleclick}
         >
           Get Started
