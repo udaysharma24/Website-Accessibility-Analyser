@@ -42,7 +42,6 @@ function AnalyticsContent() {
   const [loading, setloading] = useState(true);
   const [score, setscore] = useState(0);
   const [fixesdata, setfixesdata] = useState(null);
-  const [auditurl, setauditurl]= useState("");
   const scanstarted = useRef(false);
   const searchParams = useSearchParams();
   const [url, seturl] = useState("");
