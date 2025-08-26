@@ -5,7 +5,7 @@ import passport from "passport"
 passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.API_URL}/auth/google/callback`,
+        callbackURL: `${process.env.API_URL}/auth/callback/google`,
         passReqToCallback: true
     }, async (req, accessToken, refreshToken, profile, done)=>{
         try{

@@ -285,7 +285,7 @@ async function startserver() {
         }
     })
     app.get("/auth/google", passport.authenticate("google", {scope: ["email", "profile"]}))
-    app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }),
+    app.get("/auth/callback/google", passport.authenticate("google", { failureRedirect: "/login" }),
         (req, res) => {
             req.session.username = req.user.displayname;
             req.session.userid = req.user.id;
