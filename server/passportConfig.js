@@ -18,7 +18,6 @@ passport.use(new GoogleStrategy({
             else
             {
                 const insertedquery= await pool.query("INSERT INTO googleusers(google_id, displayname, email) VALUES ($1, $2, $3) RETURNING *", [profile.id ,profile.displayName, email])
-                req.session.displayname= profile.displayName
                 return done(null, insertedquery.rows[0])
             }
         }

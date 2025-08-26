@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Poppins } from 'next/font/google';
+
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -12,8 +13,8 @@ const poppins = Poppins({
 export default function VantaBirds() {
   const vantaRef = useRef(null);
   const [vantaEffect, setVantaEffect] = useState(null);
-  const [username, setusername] = useState("");
   const [url1, seturl1] = useState("");
+  const [username, setUsername] = useState(null);
   const router = useRouter();
 
   async function handleclick(e) {
@@ -36,17 +37,22 @@ export default function VantaBirds() {
 
   useEffect(() => {
     let effect;
-    async function handleusername() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, { credentials: "include" });
-      const data = await response.json();
-      console.log(data);
-      if (data == null || data.username == null || data.username == undefined)
-        setusername("User");
-      else
-        setusername(data.username);
-      console.log(username);
+
+    // This function runs when the component loads.
+    // It fetches the user's name from the server session.
+    async function fetchUsername() {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, { credentials: "include" });
+        if (response.ok) {
+          const data = await response.json();
+          setUsername(data.username); // Set the username in our component's state
+        }
+      } catch (error) {
+        console.error("Failed to fetch username:", error);
+      }
     }
-    handleusername();
+
+    fetchUsername();
 
     const loadScripts = async () => {
       const threeScript = document.createElement('script');
@@ -102,7 +108,7 @@ export default function VantaBirds() {
         className={`w-full max-w-md sm:max-w-lg md:max-w-2xl mx-auto p-6 sm:p-8 rounded-xl bg-gradient-to-r from-sky-300 to-sky-200 shadow-lg ${poppins.className}`}
       >
         <p className="text-gray-800 font-bold mb-6 text-2xl sm:text-3xl text-center">
-          Welcome! <span className="text-blue-600">{username}</span> 🙏😀
+          Welcome! <span className="text-blue-600">{username || 'User'}</span> 🙏😀
         </p>
         <label
           htmlFor="url-input"
