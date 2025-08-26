@@ -100,7 +100,7 @@ function AnalyticsContent() {
             });
             const reportRes = await report.json();
             console.log(reportRes);
-            const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_data`, { credentials: "include" });
+            const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_data?url=${urlParam}audit_id=${audit_id_param}`, { credentials: "include" });
             const data2 = await response2.json();
             console.log(data2.audit);
             console.log(data2.fixes);

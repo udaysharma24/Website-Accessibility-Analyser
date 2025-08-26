@@ -301,8 +301,8 @@ async function startserver() {
             res.status(440).json({message: "User is not logged in"})
     })
     app.get("/analytics_data", async(req, res)=>{
-        const url= req.session.url
-        const audit_id= req.session.audit_id
+        const url= req.query.url
+        const audit_id= req.query.audit_id
         if(!url)
             return res.status(400).json({message: "No URL in session!!"})
         else
