@@ -35,18 +35,15 @@ const port= process.env.PORT || 3001
 
 async function startserver() {
     app.use(cors({
-        origin: function (origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
+        origin: allowedOrigins,
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"]
+        allowedHeaders: ["Content-Type", "Authorization"],
     }));
-    app.options("*", cors());
+    app.options("*", cors({
+        origin: allowedOrigins,
+        credentials: true,
+    }));
     app.set("trust proxy", 1)
     app.use(cookieParser())
     app.use(express.json())
