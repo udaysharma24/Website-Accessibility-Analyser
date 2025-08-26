@@ -239,7 +239,7 @@ async function startserver() {
         console.log(req.body)
         const url= req.body.url
         const audit_id= req.body.audit_id
-        const reportpath= path.join(__dirname, 'accessibility_report.json')
+        const reportpath= path.join(process.cwd(), "server", 'accessibility_report.json')
         if(!fs.existsSync(reportpath))
             return res.status(404).json({error: "Accessibility Report File Not found, Please run Accessibility Test first!"})
         const rawdata= fs.readFileSync(reportpath)
