@@ -315,7 +315,7 @@ async function startserver() {
             return res.status(400).json({message: "No URL in session!!"})
         else
         {
-            const result= await pool.query("SELECT * FROM audit_results WHERE audit_id=$1 ORDER BY id ASC", [audit_id])
+            const result= await pool.query("SELECT * FROM audit_results WHERE audit_id=$1 ORDER BY id ASC", [audit_id]);
             const aifixes= await getaccess_fixes(reportpath)
             res.status(200).json({audit: result.rows, fixes: aifixes})
         }

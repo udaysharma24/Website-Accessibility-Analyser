@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 const ai= new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY})
 
 export default async function getaccess_fixes(reportpath){
-    const report= fs.readFileSync(new URL("./accessibility_report.json", import.meta.url), "utf-8")
+    const report= fs.readFileSync(reportpath, "utf-8")
     let text="[]"
     try{
         const response= await ai.models.generateContent({
