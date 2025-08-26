@@ -23,6 +23,8 @@ import cookieParser from "cookie-parser"
 
 dotenv.config()
 
+const allowedOrigins = [process.env.CLIENT_URL];
+
 const PgSession= connect_pg(session)
 
 const _filename= fileURLToPath(import.meta.url)
@@ -33,17 +35,18 @@ const port= process.env.PORT || 3001
 
 async function startserver() {
     app.use(cors({
-        origin: "https://intelliaccess.vercel.app",
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         credentials: true,
-        methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"]
     }));
-    app.options("*", cors({
-        origin: "https://intelliaccess.vercel.app",
-        credentials: true,
-        methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"]
-    }));
+    app.options("*", cors());
     app.set("trust proxy", 1)
     app.use(cookieParser())
     app.use(express.json())
@@ -114,6 +117,13 @@ async function startserver() {
             }
         });
     })
+    app.get("/env-test", (req, res) => {
+        res.json({
+            EMAIL: process.env.EMAIL,
+            FRONTEND_URL: process.env.FRONTEND_URL,
+            NODE_ENV: process.env.NODE_ENV
+        });
+    });
     app.get("/verify/:token", async(req, res)=>{
         const token= req.params.token
         const user= await pool.query("Select * from users where verify_token=$1", [token])
