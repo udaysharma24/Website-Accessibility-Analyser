@@ -23,7 +23,7 @@ import cookieParser from "cookie-parser"
 
 dotenv.config()
 
-const allowedOrigins = [process.env.CLIENT_URL];
+const allowedOrigins = [process.env.FRONTEND_URL];
 
 const PgSession= connect_pg(session)
 
