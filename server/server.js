@@ -245,7 +245,7 @@ async function startserver() {
         const rawdata= fs.readFileSync(reportpath)
         const report= JSON.parse(rawdata)
         const violations= report.violations
-        
+        console.log(violations)
         for(const violation of violations)
         {
             const wcag_rule= violation.id
