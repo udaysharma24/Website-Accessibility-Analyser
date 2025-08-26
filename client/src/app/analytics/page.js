@@ -42,6 +42,7 @@ function AnalyticsContent() {
   const [loading, setloading] = useState(true);
   const [score, setscore] = useState(0);
   const [fixesdata, setfixesdata] = useState(null);
+  const [auditurl, setauditurl]= useState("");
   const scanstarted = useRef(false);
   const searchParams = useSearchParams();
   const [url, seturl] = useState("");
@@ -58,12 +59,14 @@ function AnalyticsContent() {
       let prev2 = 0;
       let prev3 = 0;
       let prev4 = 0;
+      const savedurl = sessionStorage.getItem("auditurl");
       const savedScore = sessionStorage.getItem("auditScore");
       const savedCounts = sessionStorage.getItem("auditCounts");
       const savedAudit = sessionStorage.getItem("auditTable");
       const savedFixes = sessionStorage.getItem("auditFixes");
       if (savedScore && savedCounts) {
         setscore(Number(savedScore));
+        seturl(savedurl);
         const counts = JSON.parse(savedCounts);
         setcritical(counts.critical);
         setserious(counts.serious);
@@ -132,7 +135,7 @@ function AnalyticsContent() {
       setminor(prev4);
       let ans = Math.max(1, (100 - penalty));
       setscore(ans);
-
+      sessionStorage.setItem("auditurl", url);
       sessionStorage.setItem("auditScore", ans);
       sessionStorage.setItem("auditCounts", JSON.stringify({
         critical: prev1, serious: prev2, moderate: prev3, minor: prev4
