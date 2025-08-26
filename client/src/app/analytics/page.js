@@ -58,16 +58,11 @@ function AnalyticsContent() {
       let prev2 = 0;
       let prev3 = 0;
       let prev4 = 0;
-      const urlParam = searchParams.get('url');
-      seturl(urlParam);
-      const audit_id_param = searchParams.get('audit_id')
-      setaudit_id(audit_id_param)
-
       const savedScore = sessionStorage.getItem("auditScore");
       const savedCounts = sessionStorage.getItem("auditCounts");
       const savedAudit = sessionStorage.getItem("auditTable");
       const savedFixes = sessionStorage.getItem("auditFixes");
-      if (savedScore && savedCounts) {
+      if (savedScore && savedCounts && url) {
         setscore(Number(savedScore));
         const counts = JSON.parse(savedCounts);
         setcritical(counts.critical);
@@ -82,7 +77,10 @@ function AnalyticsContent() {
       if (scanstarted.current) return;
       scanstarted.current = true;
       setloading(true);
-
+      const urlParam = searchParams.get('url');
+      seturl(urlParam);
+      const audit_id_param = searchParams.get('audit_id')
+      setaudit_id(audit_id_param)
       const response1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_back?url=${encodeURIComponent(urlParam)}`, {
         method: "GET",
         credentials: "include"
