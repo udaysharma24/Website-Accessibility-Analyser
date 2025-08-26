@@ -261,7 +261,7 @@ async function startserver() {
                 await pool.query("INSERT INTO audit_results(audit_id, wcag_rule, severity, description, resolved,html_snippet, css_target, failure_summary, help_url, url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", [audit_id, wcag_rule, severity, description, resolved, html_snippet, css_target, failure_summary, help_url, url])
             }
         }
-        res.status(200).json({message: `Accessibility Results inserted successfully in audit_results for ${url}!`})
+        res.status(200).json({message: `Accessibility Results inserted successfully in audit_results for ${url}!`, reportpath: reportpath})
     })
     app.post("/logout", (req, res)=>{
         req.session.destroy((err)=>{
@@ -310,12 +310,13 @@ async function startserver() {
     app.get("/analytics_data", async(req, res)=>{
         const url= req.query.url
         const audit_id= req.query.audit_id
+        const reportpath= req.query.reportpath
         if(!url)
             return res.status(400).json({message: "No URL in session!!"})
         else
         {
             const result= await pool.query("SELECT * FROM audit_results WHERE audit_id=$1 ORDER BY id ASC", [audit_id])
-            const aifixes= await getaccess_fixes()
+            const aifixes= await getaccess_fixes(reportpath)
             res.status(200).json({audit: result.rows, fixes: aifixes})
         }
     })

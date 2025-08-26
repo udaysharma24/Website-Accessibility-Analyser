@@ -98,7 +98,7 @@ function AnalyticsContent() {
       });
       const reportdata= await report.json();
       console.log(`Message from server.js is: ${reportdata.message}`)
-      const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_data?url=${urlParam}&audit_id=${audit_id_param}`, { credentials: "include" });
+      const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_data?url=${urlParam}&audit_id=${audit_id_param}&reportpath=${reportdata.reportpath}`, { credentials: "include" });
       const data2 = await response2.json();
       console.log(`data2 from /analytics_data is ${data2}`)
       setaudit(data2.audit);

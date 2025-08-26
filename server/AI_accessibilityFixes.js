@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 const ai= new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY})
 
-export default async function getaccess_fixes(){
+export default async function getaccess_fixes(reportpath){
     const report= fs.readFileSync(new URL("./accessibility_report.json", import.meta.url), "utf-8")
     let text="[]"
     try{
@@ -20,6 +20,16 @@ export default async function getaccess_fixes(){
         })
         text= response.text || "[]"
         text = text.replace(/^```json\s*/, "").replace(/```$/, "").replace(/,\s*([\]}])/g, "$1").replace(/[\u0000-\u0009\u000B\u000C\u000E-\u001F]+/g, "").trim();
+        try
+        {
+            if(fs.existsSync(reportpath)){
+                fs.unlinkSync(reportpath); 
+                console.log(`Deleted ${reportpath} after inserting into DB`);
+            }
+        } 
+        catch(err){
+            console.error("Error deleting accessibility report:", err);
+        }
         return JSON.parse(text)
     }
     catch(err){
