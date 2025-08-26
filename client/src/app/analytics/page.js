@@ -62,7 +62,7 @@ function AnalyticsContent() {
       const savedCounts = sessionStorage.getItem("auditCounts");
       const savedAudit = sessionStorage.getItem("auditTable");
       const savedFixes = sessionStorage.getItem("auditFixes");
-      if (savedScore && savedCounts && url) {
+      if (savedScore && savedCounts) {
         setscore(Number(savedScore));
         const counts = JSON.parse(savedCounts);
         setcritical(counts.critical);
