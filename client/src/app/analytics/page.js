@@ -95,7 +95,7 @@ function AnalyticsContent() {
             const report = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({urlParam, audit_id_param}),
+                body: JSON.stringify({url: urlParam, audit_id: audit_id_param}),
                 credentials: "include"
             });
             const reportRes = await report.json();
