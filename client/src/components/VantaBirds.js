@@ -10,11 +10,11 @@ const poppins = Poppins({
   weight: ['400']
 });
 
-export default function VantaBirds() {
+export default function VantaBirds({ username }) {
   const vantaRef = useRef(null);
   const [vantaEffect, setVantaEffect] = useState(null);
   const [url1, seturl1] = useState("");
-  const [username, setUsername] = useState(null);
+  const [displayedUsername, setDisplayedUsername] = useState(username);
   const router = useRouter();
 
   async function handleclick(e) {
@@ -38,17 +38,17 @@ export default function VantaBirds() {
   useEffect(() => {
     let effect;
 
-    // This function runs when the component loads.
-    // It fetches the user's name from the server session.
     async function fetchUsername() {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, { credentials: "include" });
-        if (response.ok) {
-          const data = await response.json();
-          setUsername(data.username); // Set the username in our component's state
+      if (!displayedUsername) {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/urlinput`, { credentials: "include" });
+          if (response.ok) {
+            const data = await response.json();
+            setDisplayedUsername(data.username); 
+          }
+        } catch (error) {
+          console.error("Failed to fetch username:", error);
         }
-      } catch (error) {
-        console.error("Failed to fetch username:", error);
       }
     }
 
@@ -108,7 +108,7 @@ export default function VantaBirds() {
         className={`w-full max-w-md sm:max-w-lg md:max-w-2xl mx-auto p-6 sm:p-8 rounded-xl bg-gradient-to-r from-sky-300 to-sky-200 shadow-lg ${poppins.className}`}
       >
         <p className="text-gray-800 font-bold mb-6 text-2xl sm:text-3xl text-center">
-          Welcome! <span className="text-blue-600">{username || 'User'}</span> 🙏😀
+          Welcome! <span className="text-blue-600">{displayedUsername || 'User'}</span> 🙏😀
         </p>
         <label
           htmlFor="url-input"

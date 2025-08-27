@@ -296,7 +296,7 @@ async function startserver() {
         (req, res) => {
             req.session.username = req.user.displayname;
             req.session.userid = req.user.id;
-            res.redirect(`https://intelliaccess.vercel.app/url_input?username=${req.user.displayName}`);
+            res.redirect(`https://intelliaccess.vercel.app/url_input?username=${req.user.displayname}`);
         }
     )
     app.get("/urlinput", (req, res)=>{
