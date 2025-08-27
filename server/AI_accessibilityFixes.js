@@ -24,7 +24,7 @@ export default async function getaccess_fixes(reportpath){
         {
             if(fs.existsSync(reportpath)){
                 fs.unlinkSync(reportpath); 
-                console.log(`Deleted ${reportpath} after inserting into DB`);
+                console.log(`Deleted ${reportpath} after inserting into AIAccessibilityFixes file`);
             }
         } 
         catch(err){
@@ -38,7 +38,7 @@ export default async function getaccess_fixes(reportpath){
         {
             if(fs.existsSync(reportpath)){
                 fs.unlinkSync(reportpath); 
-                console.log(`Deleted ${reportpath} after inserting into DB`);
+                console.log(`Deleted ${reportpath} after encountering some issue in AIAccessibilityIssue file`);
             }
         } 
         catch(err){
