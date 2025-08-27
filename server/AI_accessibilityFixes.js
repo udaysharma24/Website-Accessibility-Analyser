@@ -34,6 +34,16 @@ export default async function getaccess_fixes(reportpath){
     }
     catch(err){
         console.error("Could not parse AI Output as JSON:", err, "\nRaw Text is: \n", text)
+        try
+        {
+            if(fs.existsSync(reportpath)){
+                fs.unlinkSync(reportpath); 
+                console.log(`Deleted ${reportpath} after inserting into DB`);
+            }
+        } 
+        catch(err){
+            console.error("Error deleting accessibility report:", err);
+        }
         return []
     }
 }
