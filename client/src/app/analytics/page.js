@@ -58,12 +58,15 @@ function AnalyticsContent() {
       let prev2 = 0;
       let prev3 = 0;
       let prev4 = 0;
+      const urlParam = searchParams.get('url');
       const savedurl = sessionStorage.getItem("auditurl");
       const savedScore = sessionStorage.getItem("auditScore");
       const savedCounts = sessionStorage.getItem("auditCounts");
       const savedAudit = sessionStorage.getItem("auditTable");
       const savedFixes = sessionStorage.getItem("auditFixes");
-      if (savedScore && savedCounts) {
+
+      // Only use sessionStorage if the cached URL matches the current URL parameter.
+      if (savedScore && savedCounts && savedurl === urlParam) {
         setscore(Number(savedScore));
         seturl(savedurl);
         const counts = JSON.parse(savedCounts);
@@ -79,7 +82,6 @@ function AnalyticsContent() {
       if (scanstarted.current) return;
       scanstarted.current = true;
       setloading(true);
-      const urlParam = searchParams.get('url');
       console.log(`urlParam is ${urlParam}`)
       seturl(urlParam);
       console.log()
