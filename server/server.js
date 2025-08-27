@@ -94,25 +94,23 @@ async function startserver() {
                 pass: process.env.EMAIL_PASS
             }
         });
-        const verifyinglink= `${process.env.FRONTEND_URL}/verify?token=${token}`
+        const verifyinglink= `https://intelliaccess.onrender.com/verify/${token}`
         let mailOptions = {
             from: process.env.EMAIL,
             to: email,
             subject: 'Intelliaccess account Verification mail',
             html:  `<p>Hello ${username},</p>
                     <p>Please verify your email by clicking below:</p>
-                    <a href="${verifyinglink}">Verify Email</a>`,
+                    <a href="${verifyinglink}">Verify Email</a>`
         };
-        transporter.sendMail(mailOptions, function(err, info){
-            if (err) {
-                console.log(err);
-                return res.status(500).json({error: `Error sending verification mail - ${email}`})
-            } 
-            else {
-                console.log('Email sent: ' + info.response);
-                return res.status(201).json({message: "Please check your mailbox and verify by clicking the link", user: result.rows[0]})
-            }
-        });
+        try {
+            const info = await transporter.sendMail(mailOptions);
+            console.log('Email sent: ' + info.response);
+            return res.status(201).json({message: "Please check your mailbox and verify by clicking the link", user: result.rows[0]});
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({error: "Error sending verification mail."});
+        }
     })
     app.get("/env-test", (req, res) => {
         res.json({
@@ -125,11 +123,11 @@ async function startserver() {
         const token= req.params.token
         const user= await pool.query("Select * from users where verify_token=$1", [token])
         if(user.rows.length===0)
-            return res.status(400).json({message: "Token is either invalid or expired"})
+            return res.redirect("https://intelliaccess.vercel.app/verification-failed?reason=invalid_token")
         else
         {
             await pool.query("update users set verified=true, verify_token=NULL where verify_token=$1", [token])
-            res.redirect(`${process.env.FRONTEND_URL}/login`)
+            res.redirect("https://intelliaccess.vercel.app/login?verified=true")
         }
     })
     app.post("/login", async(req, res)=>{
