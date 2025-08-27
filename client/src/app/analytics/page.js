@@ -206,17 +206,17 @@ function AnalyticsContent() {
             </div>
           </div>
 
-          <div className="overflow-x-auto mt-8">
+          <div className="overflow-x-auto print:overflow-visible mt-8">
             <table className="w-full border text-xs sm:text-sm border-gray-300 rounded-lg shadow-md">
               <thead className="bg-gray-100 sticky top-0 print:static">
                 <tr>
                   <th className="px-2 sm:px-4 py-2 border">S.No</th>
-                  <th className="px-2 sm:px-4 py-2 border">WCAG Rule</th>
+                  <th className="px-2 sm:px-4 py-2 border"><span className="hidden sm:inline">WCAG </span>Rule</th>
                   <th className="px-2 sm:px-4 py-2 border">Severity</th>
                   <th className="px-2 sm:px-4 py-2 border">Violation</th>
                   <th className="px-2 sm:px-4 py-2 border">HTML</th>
-                  <th className="px-2 sm:px-4 py-2 border">CSS Target</th>
-                  <th className="px-2 sm:px-4 py-2 border">Failure Summary</th>
+                  <th className="px-2 sm:px-4 py-2 border"><span className="hidden sm:inline">CSS </span>Target</th>
+                  <th className="px-2 sm:px-4 py-2 border"><span className="hidden sm:inline">Failure </span>Summary</th>
                   <th className="px-2 sm:px-4 py-2 border">Help</th>
                 </tr>
               </thead>
