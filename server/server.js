@@ -159,33 +159,31 @@ async function startserver() {
             }
             else
             {
-                let transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: process.env.EMAIL,
-                        pass: process.env.EMAIL_PASS
-                    }
-                });
-                const verifyinglink= `${process.env.FRONTEND_URL}/verify?token=${token}`
-                let mailOptions = {
-                    from: process.env.EMAIL,
-                    to: email,
-                    subject: 'Intelliaccess account Verification mail',
-                    html:  `<p>Hello ${user.username},</p>
-                            <p>Please verify your email by clicking below:</p>
-                            <a href="${verifyinglink}">Verify Email</a>`,
-                };
-                transporter.sendMail(mailOptions, function(err, info){
-                    if (err) {
-                        console.log(err);
-                        return res.status(500).json({error: `Error sending verification mail - ${email}`})
-                    } 
-                    else {
-                        console.log('Email sent: ' + info.response);
-                        return res.status(201).json({message: "Please check your mailbox and verify by clicking the link", user: result.rows[0]})
-                    }
-                });
-                return res.status(403).json({message: "Please verify your email before Login!"})
+                try {
+                    await pool.query("UPDATE users SET verify_token = $1 WHERE email = $2", [token, email]);
+
+                    let transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: process.env.EMAIL,
+                            pass: process.env.EMAIL_PASS
+                        }
+                    });
+                    const verifyinglink = `https://intelliaccess.onrender.com/verify/${token}`;
+                    let mailOptions = {
+                        from: process.env.EMAIL,
+                        to: email,
+                        subject: 'Intelliaccess Account Verification',
+                        html:  `<p>Hello ${user.username},</p>
+                                <p>Please verify your email by clicking the link below:</p>
+                                <a href="${verifyinglink}">Verify Email</a>`
+                    };
+                    await transporter.sendMail(mailOptions);
+                    return res.status(403).json({ message: "Please verify your email before logging in. A new verification link has been sent to your email." });
+                } catch (err) {
+                    console.error("Error during login for unverified user:", err);
+                    return res.status(500).json({ error: "An error occurred. Please try again." });
+                }
             }
         }
         else

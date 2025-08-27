@@ -84,9 +84,8 @@ function AnalyticsContent() {
       setloading(true);
       console.log(`urlParam is ${urlParam}`)
       seturl(urlParam);
-      console.log()
       const audit_id_param = searchParams.get('audit_id')
-      console.log(`audit_id_param is ${urlParam}`)
+      console.log(`audit_id_param is ${audit_id_param}`)
       setaudit_id(audit_id_param)
       const response1 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics_back?url=${encodeURIComponent(urlParam)}`, {
         method: "GET",
@@ -136,7 +135,7 @@ function AnalyticsContent() {
       setminor(prev4);
       let ans = Math.max(1, (100 - penalty));
       setscore(ans);
-      sessionStorage.setItem("auditurl", url);
+      sessionStorage.setItem("auditurl", urlParam);
       sessionStorage.setItem("auditScore", ans);
       sessionStorage.setItem("auditCounts", JSON.stringify({
         critical: prev1, serious: prev2, moderate: prev3, minor: prev4
