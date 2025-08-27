@@ -4,6 +4,18 @@ import pkg from 'axe-core'
 import path from "path";
 
 export default async function accessibilityTest(website){
+    const reportpath = path.resolve("server", "accessibility_report.json");
+    // To prevent using a stale report from a previous run, delete the old report
+    // file if it exists before starting a new test.
+    if (fs.existsSync(reportpath)) {
+        try {
+            fs.unlinkSync(reportpath);
+            console.log(`Deleted stale report file: ${reportpath}`);
+        } catch (err) {
+            console.error(`Error deleting stale report file: ${err}`);
+        }
+    }
+
     const {source: axesource}= pkg
     const chromePath = '/opt/render/.cache/puppeteer/chrome/linux-138.0.7204.168/chrome-linux64/chrome';
     console.log("Checking Chrome path:", chromePath);
@@ -21,7 +33,6 @@ export default async function accessibilityTest(website){
     const scan_duration= end-start
     console.log(`Scan completed in ${scan_duration}ms`)
     console.log(`Violations found: ${results.violations.length}`)
-    const reportpath= path.resolve("server", "accessibility_report.json")
     console.log(`report path is ${reportpath}`)
     const dir= path.dirname(reportpath)
     if(!fs.existsSync(dir))
