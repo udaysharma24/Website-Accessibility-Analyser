@@ -177,7 +177,7 @@ function AnalyticsContent() {
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-80 z-50 px-4">
             <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-4 border-blue-500 border-solid"></div>
             <p className="mt-3 text-gray-700 font-medium text-center text-base sm:text-lg">
-              ⏳ This usually takes 10–15 seconds...
+              ⏳ This usually takes 30–35 seconds...
             </p>
           </div>
         )}
